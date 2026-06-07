@@ -57,4 +57,40 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 });
 
+router.put('/:id', authMiddleware, async (req, res) => {
+    try
+    {
+        const {id} = req.params;
+
+        const task = await Task.findOne({
+            _id: id,
+            user: req.user.userId
+        });
+
+        if(!task)
+        {
+            return res.status(404).json({
+                message: "Task not found !"
+            });
+        }
+
+        task.title = req.body.title || task.title;
+        task.description = req.body.description || task.description;
+        task.completed = req.body.completed ?? task.completed;
+
+        await task.save();
+        res.json({
+            message: "Task updated successfully !",
+            task
+        });
+    }
+    catch(error)
+    {
+        res.status(500).json({
+            message: "Error in updating !",
+            error: error.message
+        });
+    }
+});
+
 module.exports = router;
