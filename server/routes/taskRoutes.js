@@ -38,4 +38,23 @@ router.post('/', authMiddleware, async (req, res) => {
     }
 });
 
+router.get('/', authMiddleware, async (req, res) => {
+    try
+    {
+        const tasks = await Task.find({user: req.user.userId});
+
+        res.status(200).json({
+            message: "Tasks fetched successfully !",
+            tasks
+        });
+    }
+    catch(error)
+    {
+        res.status(500).json({
+            message: "Error in fetching tasks !",
+            error: error.message
+        });
+    }
+});
+
 module.exports = router;
