@@ -11,15 +11,18 @@ const taskSchema = new mongoose.Schema({
     required: true
   },
 
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-
   completed: {
     type: Boolean,
+    default: false
+  },
+
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true
   }
+}, {
+  timestamps: true
 });
 
 const Task = mongoose.model("Task", taskSchema);

@@ -17,5 +17,10 @@ app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}.`);
 });
 
+// How Express actually builds the final URL
+// BASE ROUTE (server.js) + ROUTE PATH (taskRoutes.js)
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
+
+const taskRoutes = require('./routes/taskRoutes');
+app.use('/api/tasks', taskRoutes);
