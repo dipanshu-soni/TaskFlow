@@ -72,6 +72,29 @@ function Dashboard()
         }
     }
 
+    const deleteTask = async (taskId) => {
+        try
+        {
+            const token = localStorage.getItem('token');
+
+            await axios.delete(
+                `http://localhost:5000/api/tasks/${taskId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            fetchTasks();
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+    };
+    /* Everything inside return is UI shown on screen, while things
+    outside return are backend/frontend logic handling.*/
     return (
         <div>
             <h1>Dashboard</h1>
@@ -93,10 +116,13 @@ function Dashboard()
             </form>
             {
                 // Task List
+                /*Arrow function is used in button tag because it waits until
+                delete button is clicked.*/
                 tasks.map((task) => (
                     <div key={task._id}>
                         <h3>{task.title}</h3>
                         <p>{task.description}</p>
+                        <button onClick={() => deleteTask(task._id)}>Delete</button>
                     </div>
                 ))
             }
