@@ -1,0 +1,59 @@
+.dashboard-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.dashboard-container h1 {
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.task-form input,
+.task-form textarea {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.task-form button {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.task-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.task-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.task-buttons button {
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 600px)
+{
+    .dashboard-container{
+        padding: 10px;
+    }
+    .task-buttons {
+        flex-direction: column;
+    }
+}
