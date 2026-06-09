@@ -39,41 +39,43 @@ function Register()
     };
 
     return (
-        <div className="register-container">
-            <form className="register-form" onSubmit={handleRegister}>
-                
-                <h2>Register</h2>
+        <div className="register-page">
+            <div className="register-container">
+                <form className="register-form" onSubmit={handleRegister}>
+                    
+                    <h1>Register</h1>
 
-                <input
-                    type="text"
-                    placeholder="Enter Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
+                    <input
+                        type="text"
+                        placeholder="Enter Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
 
-                <input
-                    type="email"
-                    placeholder="Enter Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                    <input
+                        type="email"
+                        placeholder="Enter Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
 
-                <input
-                    type="password"
-                    placeholder="Enter Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                    <input
+                        type="password"
+                        placeholder="Enter Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
 
-                <input
-                    type="number"
-                    placeholder="Enter Age"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                />
+                    <input
+                        type="number"
+                        placeholder="Enter Age"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                    />
 
-                <button type="submit">Register</button>
-            </form>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
         </div>
     );
 }

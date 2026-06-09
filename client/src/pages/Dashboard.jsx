@@ -95,6 +95,33 @@ function Dashboard()
         }
     };
 
+    // Toggle complete
+    const toggleComplete = async (taskId, currentStatus) => {
+        try
+        {
+            const token = localStorage.getItem('token');
+
+            await axios.put(
+                `http://localhost:5000/api/tasks/${taskId}`,
+                {
+                    completed: !currentStatus
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            fetchTasks();
+        }
+
+        catch(error)
+        {
+            console.log(error);
+        }
+    };
+
     const updateTask = async (taskId) => {
         try
         {
@@ -136,106 +163,108 @@ function Dashboard()
     /* Everything inside return is UI shown on screen, while things
     outside return are backend/frontend logic handling.*/
     return (
-        <div className="dashboard-container">
-            <h1>Dashboard</h1>
-            <form className="task-form" onSubmit={addTask}>
-                <input
-                    type="text"
-                    placeholder="Enter Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
+        <div className="dashboard-page">
+            <div className="dashboard-container">
+                <h1>Dashboard</h1>
+                <form className="task-form" onSubmit={addTask}>
+                    <input
+                        type="text"
+                        placeholder="Enter Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
 
-                <textarea
-                    placeholder="Enter Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
+                    <textarea
+                        placeholder="Enter Description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
 
-                <button type="submit">Add Task</button>
-            </form>
-            <hr />
-            {
-                // Task List
-                /*Arrow function is used in button tag because it waits until
-                delete button is clicked.*/
-                tasks.map((task) => (
-                    <div key={task._id} className="task-card">
-                    {
-                        editTaskId === task._id
-                        ?
-                        (
-                            <div>
-                                <input
-                                    type="text"
-                                    value={editTitle}
-                                    onChange={(e) => setEditTitle(e.target.value)}
-                                />
+                    <button type="submit">Add Task</button>
+                </form>
+                <hr />
+                {
+                    // Task List
+                    /*Arrow function is used in button tag because it waits until
+                    delete button is clicked.*/
+                    tasks.map((task) => (
+                        <div key={task._id} className="task-card">
+                        {
+                            editTaskId === task._id
+                            ?
+                            (
+                                <div>
+                                    <input
+                                        type="text"
+                                        value={editTitle}
+                                        onChange={(e) => setEditTitle(e.target.value)}
+                                    />
 
-                                <textarea
-                                    value={editDescription}
-                                    onChange={(e) =>
-                                        setEditDescription(e.target.value)
-                                    }
-                                />
+                                    <textarea
+                                        value={editDescription}
+                                        onChange={(e) =>
+                                            setEditDescription(e.target.value)
+                                        }
+                                    />
+
+                                    <button
+                                        onClick={() => updateTask(task._id)}
+                                    >
+                                        Update
+                                    </button>
+
+                                </div>
+                            ):(
+                                <div>
+
+                                    <h3>{task.title}</h3>
+
+                                    <p>{task.description}</p>
+
+                                    <p>
+                                        Status:
+                                        {
+                                            task.completed
+                                            ? ' Completed'
+                                            : ' Pending'
+                                        }
+                                    </p>
+
+                                </div>
+                            )
+                        }
+
+                            <div className="task-buttons">
+                                <button
+                                    onClick={() => {
+                                        setEditTaskId(task._id);
+                                        setEditTitle(task.title);
+                                        setEditDescription(task.description);
+                                    }}
+                                >Edit</button>
 
                                 <button
-                                    onClick={() => updateTask(task._id)}
+                                    onClick={() =>
+                                        toggleComplete(
+                                            task._id,
+                                            task.completed
+                                        )
+                                    }
                                 >
-                                    Update
-                                </button>
-
-                            </div>
-                        ):(
-                            <div>
-
-                                <h3>{task.title}</h3>
-
-                                <p>{task.description}</p>
-
-                                <p>
-                                    Status:
                                     {
                                         task.completed
-                                        ? ' Completed'
-                                        : ' Pending'
+                                        ? 'Undo'
+                                        : 'Complete'
                                     }
-                                </p>
+                                </button>
+
+                                <button onClick={() => deleteTask(task._id)}>Delete</button>
 
                             </div>
-                        )
-                    }
-
-                        <div className="task-buttons">
-                            <button
-                                onClick={() => {
-                                    setEditTaskId(task._id);
-                                    setEditTitle(task.title);
-                                    setEditDescription(task.description);
-                                }}
-                            >Edit</button>
-
-                            <button
-                                onClick={() =>
-                                    toggleComplete(
-                                        task._id,
-                                        task.completed
-                                    )
-                                }
-                            >
-                                {
-                                    task.completed
-                                    ? 'Undo'
-                                    : 'Complete'
-                                }
-                            </button>
-
-                            <button onClick={() => deleteTask(task._id)}>Delete</button>
-
                         </div>
-                    </div>
-                ))
-            }
+                    ))
+                }
+            </div>
         </div>
     );
 }
